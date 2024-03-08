@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Information Confirmation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+        .btn-custom {
+            margin-right: 10px; /* Adjust or remove as needed */
+        }
+        .button-group {
+            display: flex; /* Align buttons side by side */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Project Information Confirmation</h2>
+    <p>Thank you for submitting your project information. Please review your submission below:</p>
+    <!-- Example Placeholder for Displaying Submitted Information -->
+    <div>
+        <p><strong>Project Title:</strong> Example Project Title</p>
+        <p><strong>Project Type:</strong> Thesis</p>
+        <!-- Display other project information similarly -->
+    </div>
+    <h3>What's next?</h3>
+    <p>Choose one of the following options to proceed with your project report:</p>
+    <div class="button-group">
+        <a href="/custom_sections" class="btn btn-primary btn-custom">Enter Custom Sections</a>
+        <button type="button" onclick="aiSuggestSections()" class="btn btn-secondary">AI Suggest Sections</button>
+    </div>
+</div>
+
+<script>
+    function aiSuggestSections() {
+        window.location.href = '/ai_suggested_sections';
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

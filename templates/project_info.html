@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Information Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+            max-width: 600px;
+        }
+        h2 {
+            color: #007bff;
+        }
+        label {
+            font-weight: bold;
+        }
+        select, input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Project Information Form</h2>
+    <p>Please fill out the following form to help us get to know your project better. This information will allow us to tailor our assistance to your specific needs.</p>
+    <form action="/submit_project_info" method="post">
+        <!-- Project Title -->
+        <div class="form-group">
+            <label for="projectTitle">Project Title</label>
+            <input type="text" class="form-control" id="projectTitle" name="projectTitle" placeholder="Enter your project title">
+        </div>
+
+        <!-- Project Type -->
+        <div class="form-group">
+            <label for="projectType">Project Type</label>
+            <select class="form-control" id="projectType" name="projectType">
+                <option>Thesis</option>
+                <option>Dissertation</option>
+                <option>Term Paper</option>
+                <option>Lab Report</option>
+                <option>Case Study</option>
+                <option>Review Article</option>
+                <option>Research Proposal</option>
+                <option>Literature Review</option>
+                <option>Analytical Paper</option>
+                <option>Reflective Journal</option>
+                <option>Business Proposal</option>
+            </select>
+        </div>
+
+        <!-- Academic Level -->
+        <div class="form-group">
+            <label for="academicLevel">Academic Level</label>
+            <select class="form-control" id="academicLevel" name="academicLevel">
+                <option>High School</option>
+                <option>Undergraduate</option>
+                <option>Master's</option>
+                <option>PhD</option>
+            </select>
+        </div>
+
+        <!-- Subject Area -->
+        <div class="form-group">
+            <label for="subjectArea">Subject Area</label>
+            <select class="form-control" id="subjectArea" name="subjectArea">
+                <option>Science</option>
+                <option>Technology</option>
+                <option>Engineering</option>
+                <option>Mathematics</option>
+                <option>Social Sciences</option>
+                <option>Humanities</option>
+            </select>
+        </div>
+
+        <!-- Research Methodology -->
+        <div class="form-group">
+            <label for="researchMethodology">Research Methodology</label>
+            <select class="form-control" id="researchMethodology" name="researchMethodology">
+                <option>Qualitative</option>
+                <option>Quantitative</option>
+                <option>Mixed Methods</option>
+                <option>Case Study</option>
+                <option>Experimental</option>
+                <option>Survey</option>
+            </select>
+        </div>
+
+        <!-- Purpose/Goal -->
+        <div class="form-group">
+            <label for="purposeGoal">Purpose/Goal</label>
+            <select class="form-control" id="purposeGoal" name="purposeGoal">
+                <option>To investigate</option>
+                <option>To analyze</option>
+                <option>To develop</option>
+                <option>To compare</option>
+                <option>To review</option>
+            </select>
+        </div>
+
+        <!-- Audience -->
+        <div class="form-group">
+            <label for="audience">Audience</label>
+            <select class="form-control" id="audience" name="audience">
+                <option>Academic peers</option>
+                <option>Industry professionals</option>
+                <option>General public</option>
+                <option>Policy makers</option>
+            </select>
+        </div>
+
+        <!-- Data Source -->
+        <div class="form-group">
+            <label for="dataSource">Data Source</label>
+            <select class="form-control" id="dataSource" name="dataSource">
+                <option>Primary Data</option>
+                <option>Secondary Data</option>
+                <option>Public Datasets</option>
+                <option>Surveys</option>
+                <option>Interviews</option>
+            </select>
+        </div>
+
+        <!-- Scope -->
+        <div class="form-group">
+            <label for="scope">Scope</label>
+            <select class="form-control" id="scope" name="scope">
+                <option>Local</option>
+                <option>National</option>
+                <option>Global</option>
+            </select>
+        </div>
+
+        <!-- Timeline -->
+        <div class="form-group">
+            <label for="timeline">Timeline</label>
+            <input type="text" class="form-control" id="timeline" name="timeline" placeholder="e.g., 2023-2024">
+        </div>
+
+        <!-- Key Challenges -->
+        <div class="form-group">
+            <label for="keyChallenges">Key Challenges</label>
+            <textarea class="form-control" id="keyChallenges" name="keyChallenges" rows="3"></textarea>
+        </div>
+
+        <!-- Desired Impact -->
+        <div class="form-group">
+            <label for="desiredImpact">Desired Impact</label>
+            <select class="form-control" id="desiredImpact" name="desiredImpact">
+                <option>Educational</option>
+                <option>Scientific Contribution</option>
+                <option>Policy Change</option>
+                <option>Technological Innovation</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="scope">Scope</label>
+            <select class="form-control" id="scope" name="scope">
+                <option>Local</option>
+                <option>National</option>
+                <option>Global</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="projectTitle">Addtional information you may like to provide</label>
+            <input type="text" class="form-control" id="projectTitle" name="projectTitle" placeholder="Enter">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<script src="https://code
