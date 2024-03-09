@@ -7,3 +7,5 @@ fastapi
 jinja2
 uvicorn
 python-multipart
+ipykernel
+python-dotenv

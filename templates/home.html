@@ -12,11 +12,13 @@
             text-align: center;
         }
         .how-it-works-container {
+            background-color: #ffffff;
+            padding: 50px 0;
+            text-align: center;
+            min-height: calc(100vh - 250px); /* Adjust based on hero section height and padding */
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh; /* Adjust this value as needed */
-            text-align: center;
         }
         .how-it-works {
             margin: 80px 0;
@@ -29,7 +31,7 @@
         }
         .step h3 {
             font-size: 1.5em;
-            color: #007bff; /* Match the bootstrap primary button color */
+            color: #007bff;
         }
         .step p {
             font-size: 1.2em;
@@ -39,9 +41,12 @@
 </head>
 <body>
     <div class="hero-section">
-        <h1>Welcome to the AI Writing Assistant</h1>
-        <p>Start creating your project report with ease.</p>
-        <a href="/project" class="btn btn-primary">Start Your Project</a>
+        <div class="container">
+            <h1>Welcome to the AI Writing Assistant</h1>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgUP0HZLDx7CP9XvUFKN4UUVVHI1wvqnhuBg&usqp=CAU alt="Image Description" style="max-width: 100%; height: auto;">
+            <p>Start creating your project report with ease.</p>
+            <a href="/project" class="btn btn-primary">Start Your Project</a>
+        </div>
     </div>
     <div class="how-it-works-container">
         <div class="container how-it-works">

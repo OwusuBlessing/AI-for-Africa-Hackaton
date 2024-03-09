@@ -6,46 +6,41 @@
     <title>Project Information Confirmation</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            padding-top: 20px;
-        }
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
-        }
-        .btn-custom {
-            margin-right: 10px; /* Adjust or remove as needed */
-        }
-        .button-group {
-            display: flex; /* Align buttons side by side */
-        }
+        body { padding-top: 20px; }
+        .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,.1); margin-bottom: 20px; }
+        .button-group { margin-top: 20px; display: flex; flex-direction: column; }
+        .btn-custom { margin-bottom: 10px; }
+        .next-steps { border-left: 2px solid #007bff; padding-left: 20px; margin-left: 20px; }
+        .next-steps h3 { color: #007bff; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>Project Information Confirmation</h2>
-    <p>Thank you for submitting your project information. Please review your submission below:</p>
-    <!-- Example Placeholder for Displaying Submitted Information -->
-    <div>
-        <p><strong>Project Title:</strong> Example Project Title</p>
-        <p><strong>Project Type:</strong> Thesis</p>
-        <!-- Display other project information similarly -->
-    </div>
-    <h3>What's next?</h3>
-    <p>Choose one of the following options to proceed with your project report:</p>
-    <div class="button-group">
-        <a href="/custom_sections" class="btn btn-primary btn-custom">Enter Custom Sections</a>
-        <button type="button" onclick="aiSuggestSections()" class="btn btn-secondary">AI Suggest Sections</button>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Project Information Confirmation</h2>
+            <p>Thank you for submitting your project information. Please review your submission below:</p>
+            <div>
+                {% for key, value in form_data.items() %}
+                <p><strong>{{ key }}:</strong> {{ value }}</p>
+                {% endfor %}
+            </div>
+            <button type="button" onclick="window.location.href='/project';" class="btn btn-info btn-custom">Go Back to Form</button>
+        </div>
+        <div class="col-md-6">
+            <div class="container next-steps">
+                <h3>What's next?</h3>
+                <p>Please select one of the following options to proceed with your project report:</p>
+                <div class="button-group">
+                    <a href="/custom_sections" class="btn btn-primary btn-custom">Enter Custom Sections</a>
+                    <a href="/ai_suggested_sections" class="btn btn-primary btn-custom">Let AI Suggest Sections</a>
+                </div>
+                <p>If you want to customize the sections for your project report, click on "Enter Custom Sections". If you prefer AI assistance in suggesting sections based on your project information, click on "Let AI Suggest Sections".</p>
+            </div>
+        </div>
     </div>
 </div>
 
-<script>
-    function aiSuggestSections() {
-        window.location.href = '/ai_suggested_sections';
-    }
-</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

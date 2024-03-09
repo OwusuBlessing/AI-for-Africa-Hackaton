@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Sections Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Create Custom Sections or Chapters</h2>
+    <form id="customSectionsForm">
+        <div id="sectionsContainer">
+            <div class="form-group">
+                <label for="sectionName0">Section Name/Chapter</label>
+                <input type="text" class="form-control" id="sectionName0" name="name" placeholder="e.g., Chapter One" required>
+                <label for="sectionDescription0">Description</label>
+                <textarea class="form-control" id="sectionDescription0" name="description" rows="3" placeholder="e.g., Introduction" required></textarea>
+            </div>
+        </div>
+        <button type="button" onclick="addSection()" class="btn btn-primary">Add Section</button>
+        <button type="button" onclick="submitForm()" class="btn btn-success">Submit</button>
+    </form>
+</div>
+
+<script>
+let sectionCounter = 1;
+
+function addSection() {
+    const sectionsContainer = document.getElementById('sectionsContainer');
+    const sectionTemplate = `
+        <div class="form-group">
+            <label for="sectionName${sectionCounter}">Section Name/Chapter</label>
+            <input type="text" class="form-control" id="sectionName${sectionCounter}" name="name" placeholder="e.g., Chapter One" required>
+            <label for="sectionDescription${sectionCounter}">Description</label>
+            <textarea class="form-control" id="sectionDescription${sectionCounter}" name="description" rows="3" placeholder="e.g., Introduction" required></textarea>
+        </div>
+    `;
+    sectionsContainer.insertAdjacentHTML('beforeend', sectionTemplate);
+    sectionCounter++;
+}
+
+function submitForm() {
+    const sections = [];
+    for (let i = 0; i < sectionCounter; i++) {
+        sections.push({
+            name: document.getElementById(`sectionName${i}`).value,
+            description: document.getElementById(`sectionDescription${i}`).value,
+        });
+    }
+
+    fetch('/submit_custom_sections', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({sections}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.redirect_url) {
+            window.location.href = data.redirect_url;
+        }
+    })
+    .catch(error => alert('An error occurred: ' + error));
+}
+</script>
+</body>
+</html>
