@@ -9,3 +9,8 @@ uvicorn
 python-multipart
 ipykernel
 python-dotenv
+tavily-python
+langchainhub
+duckduckgo-search
+wikipedia
+numexpr

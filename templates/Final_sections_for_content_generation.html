@@ -31,7 +31,7 @@
                     <td>{{ section }}</td>
                     <td>
                         <!-- Attach section index and description as data attributes -->
-                        <button class="btn btn-primary" data-index="{{ index }}" data-description="{{ section }}" onclick="sendSection(this)">Click to see outline</button>
+                        <button class="btn btn-primary" data-index="{{ index }}" data-description="{{ section }}" onclick="sendSection(this)">Click to generate content</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -59,13 +59,10 @@
         })
         .then(response => {
             if (response.ok) {
-                return response.json();
+                window.location.href = '/content_page';  // Redirect to content_page.html
+            } else {
+                throw new Error('Network response was not ok.');
             }
-            throw new Error('Network response was not ok.');
-        })
-        .then(data => {
-            console.log(data);
-            alert("Section posted successfully!");
         })
         .catch(error => console.error('Error:', error));
     }

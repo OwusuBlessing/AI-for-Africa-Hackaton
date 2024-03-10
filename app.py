@@ -2,10 +2,15 @@ from fastapi import FastAPI,Form, Request,HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 from typing import Optional,Dict,List
 from pydantic import BaseModel
 from utils import save_dict_as_json,load_json_as_dict
 from openai_llm.ai_suggestion import collect_ai_suggest_sections
+from openai_llm.ai_outlines import generate_outline
+from langchain.schema import HumanMessage, SystemMessage,AIMessage
+from openai_llm.generate_response import info, sections,current_section,outlines,chat_history,setup_agent, generate_output
+
 
 app = FastAPI()
 
@@ -90,15 +95,15 @@ async def submit_custom_sections(submit_sections: SubmitSections):
 
 @app.get("/ai_suggested_sections", response_class=HTMLResponse)
 async def get_project_form(request: Request):
-    try: 
-        collect_ai_suggest_sections()
+    #try: 
+    collect_ai_suggest_sections()
      # Respond with a URL for redirection.
-        return JSONResponse(content={"message": "Sections submitted successfully", "redirect_url": "/success"})
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    #sections = load_json_as_dict(file_name="sections.json")
+       # return JSONResponse(content={"message": "Sections submitted successfully", "redirect_url": "/success"})
+    #except Exception as e:
+        #raise HTTPException(status_code=500, detail=str(e))
+    sections = load_json_as_dict(file_name="sections.json")
 
-    #return templates.TemplateResponse("ai_sections.html", {"request": request,'sections':sections})#,"sections":section_dict})
+    return templates.TemplateResponse("ai_sections.html", {"request": request,'sections':sections})#,"sections":section_dict})
 
 
 @app.get("/success", response_class=HTMLResponse)
@@ -109,61 +114,52 @@ async def get_project_form(request: Request):
     return templates.TemplateResponse("Final_sections_for_content_generation.html", {"request": request,'sections':sections})#,"sections":section_dict})
 
 
-
-
-
-
 class Section(BaseModel):
     sectionName: str
     description: str
+
 
 @app.post("/post_section")
 async def post_section(section: Section):
     try:
         # Process the section here. For example, save it to a database.
+
+        current_section = {section.sectionName: section.description}
+        save_dict_as_json(current_section, file_name="current_section.json")
+         
+        info = load_json_as_dict(file_name="project_general_info.json")
+        sections = load_json_as_dict(file_name="sections.json")
+        # Generate outlines
+        outlines = generate_outline(info=info, sections=sections, current_section=current_section)
+        save_dict_as_json(outlines, file_name="outlines.json")
+        print(outlines)
         print(section.sectionName, section.description)
-        return {"message": "Section received successfully"}
+
+        # Redirect to success page
+        #return RedirectResponse(url="/content_page")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
+@app.post("/content_page", response_class=HTMLResponse)
+async def post_content_page(request: Request):
+    # Handle POST request for content_page route if nseeded
+    return RedirectResponse(url="/content_page")
 
+@app.get("/content_page", response_class=HTMLResponse)
+async def get_content_page(request: Request):
+    outlines = load_json_as_dict(file_name="outlines.json")
+    return templates.TemplateResponse("content_page.html", {"request": request, 'outlines': outlines})
 
-
-@app.get("/ch", response_class=HTMLResponse)
-async def home():
-    return """
-    <html>
-    <head>
-        <title>Chatbot</title>
-        <script>
-            async function sendMessage() {
-                const userInput = document.getElementById("userInput").value;
-                document.getElementById("userInput").value = "";
-                const response = await fetch("/chat", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ message: userInput })
-                });
-                const data = await response.json();
-                document.getElementById("chat").innerHTML += `<p><strong>User:</strong> ${userInput}</p>`;
-                document.getElementById("chat").innerHTML += `<p><strong>Bot:</strong> ${data.message}</p>`;
-            }
-        </script>
-    </head>
-    <body>
-        <h1>Chatbot</h1>
-        <div id="chat"></div>
-        <input type="text" id="userInput" />
-        <button onclick="sendMessage()">Send</button>
-    </body>
-    </html>
-    """
+#,"sections":section_dict})
 
 @app.post("/chat")
 async def chat(request: Request):
     data = await request.json()
     message = data["message"]
-    bot_response = "Hi"
-    return {"message": bot_response}
+    print(message)
+    style = data["style"]  # Get the selected referencing style(s)
+    ref_style = HumanMessage(content=f"Citation style to use  : {style}")
+    chat_history.append(ref_style)
+    print(style)
+    response = generate_output(message)
+    return JSONResponse(content={"message": response})

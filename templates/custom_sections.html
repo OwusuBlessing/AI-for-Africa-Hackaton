@@ -3,65 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Sections Form</title>
+    <title>Research Assistant</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS */
+        body {
+            padding-top: 50px;
+            background-color: #f8f9fa; /* Light gray background */
+        }
+        #chat-container {
+            margin-top: 50px;
+        }
+        #chat-messages {
+            height: 200px;
+            overflow-y: scroll;
+        }
+        .outline-list {
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap */
+            justify-content: space-between;
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px; /* Add space between outline list and chat container */
+        }
+        /* Changed .outline-item to .outline-button */
+        .outline-button {
+            font-size: 18px;
+            color: #fff; /* White text color */
+            background-color: #007bff; /* Primary blue background color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 20px; /* Add padding */
+            cursor: pointer; /* Add cursor pointer */
+            margin-bottom: 10px; /* Add margin between buttons */
+        }
+        .outline-button:hover {
+            background-color: #0056b3; /* Darker blue background color on hover */
+        }
+        .chat-message {
+            margin-bottom: 10px;
+        }
+        .user-message {
+            color: #495057; /* Grey color for user message */
+        }
+        .bot-message {
+            color: #000000; /* Black color for bot message */
+        }
+        .btn-outline-custom {
+            color: #fff; /* White text color */
+            background-color: #6c757d; /* Dark gray background */
+            border-color: #6c757d; /* Dark gray border */
+        }
+        .btn-outline-custom:hover {
+            color: #fff; /* White text color on hover */
+            background-color: #495057; /* Darker gray background on hover */
+            border-color: #495057; /* Darker gray border on hover */
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2>Create Custom Sections or Chapters</h2>
-    <form id="customSectionsForm">
-        <div id="sectionsContainer">
-            <div class="form-group">
-                <label for="sectionName0">Section Name/Chapter</label>
-                <input type="text" class="form-control" id="sectionName0" name="name" placeholder="e.g., Chapter One" required>
-                <label for="sectionDescription0">Description</label>
-                <textarea class="form-control" id="sectionDescription0" name="description" rows="3" placeholder="e.g., Introduction" required></textarea>
+    <div class="container">
+        <div class="mt-5">
+            <h2 class="text-center mb-4">Selected chapter/Section Outlines</h2>
+            <p class="text-muted text-center mb-4">Explore the key points of your the selected chapter/section</p>
+            <ul class="outline-list">
+                {% for value in outlines.values() %}
+                <!-- Changed li to button and added class="outline-button" -->
+                <button class="outline-button" onclick="handleButtonClick('{{ value }}')">{{ value }}</button>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="chat-container" class="mt-5">
+            <h2 class="text-center mb-4">Research Assistant</h2>
+            <p class="text-muted text-center mb-4">Interact with the research assistant</p>
+            <div id="chat-messages">
+                <!-- Chat messages will be displayed here -->
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" id="userInput" class="form-control" placeholder="Type your message...">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-custom" onclick="sendMessage()">Send</button>
+                </div>
             </div>
         </div>
-        <button type="button" onclick="addSection()" class="btn btn-primary">Add Section</button>
-        <button type="button" onclick="submitForm()" class="btn btn-success">Submit</button>
-    </form>
-</div>
-
-<script>
-let sectionCounter = 1;
-
-function addSection() {
-    const sectionsContainer = document.getElementById('sectionsContainer');
-    const sectionTemplate = `
-        <div class="form-group">
-            <label for="sectionName${sectionCounter}">Section Name/Chapter</label>
-            <input type="text" class="form-control" id="sectionName${sectionCounter}" name="name" placeholder="e.g., Chapter One" required>
-            <label for="sectionDescription${sectionCounter}">Description</label>
-            <textarea class="form-control" id="sectionDescription${sectionCounter}" name="description" rows="3" placeholder="e.g., Introduction" required></textarea>
+        
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary">Go Back to Home</a>
         </div>
-    `;
-    sectionsContainer.insertAdjacentHTML('beforeend', sectionTemplate);
-    sectionCounter++;
-}
+    </div>
 
-function submitForm() {
-    const sections = [];
-    for (let i = 0; i < sectionCounter; i++) {
-        sections.push({
-            name: document.getElementById(`sectionName${i}`).value,
-            description: document.getElementById(`sectionDescription${i}`).value,
-        });
-    }
-
-    fetch('/submit_custom_sections', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({sections}),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.redirect_url) {
-            window.location.href = data.redirect_url;
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById("userInput").value;
+            document.getElementById("userInput").value = "";
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: userInput })
+            });
+            const data = await response.json();
+            const chatMessages = document.getElementById("chat-messages");
+            const userMessage = document.createElement("p");
+            userMessage.className = "chat-message user-message";
+            userMessage.innerHTML = `<strong>You:</strong> ${userInput}`;
+            const botMessage = document.createElement("div");
+            botMessage.className = "chat-message bot-message";
+            botMessage.innerHTML = `
+                <strong>Bot:</strong> ${data.message}
+                <button class="btn btn-outline-secondary btn-sm ml-2" onclick="copyMessage(this)">Copy</button>`;
+            chatMessages.appendChild(userMessage);
+            chatMessages.appendChild(botMessage);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
         }
-    })
-    .catch(error => alert('An error occurred: ' + error));
-}
-</script>
+
+        function copyMessage(button) {
+            const messageText = button.parentElement.textContent.trim().replace("Copy", "");
+            navigator.clipboard.writeText(messageText);
+            alert("Message copied to clipboard!");
+        }
+
+        // Function to handle button click
+        function handleButtonClick(value) {
+            // You can perform any action here when a button is clicked
+            console.log("Button clicked with value:", value);
+        }
+    </script>
 </body>
 </html>

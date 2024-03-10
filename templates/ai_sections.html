@@ -30,7 +30,7 @@
                     <td>{{ index }}</td>
                     <td>{{ section }}</td>
                     <td>
-                        <button class="btn btn-primary" data-index="{{ index }}" data-description="{{ section }}" onclick="sendSection(this)">Click to see outline</button>
+                        <button class="btn btn-primary" data-index="{{ index }}" data-description="{{ section }}" onclick="sendSection('{{ index }}')">Click to see outline</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -48,8 +48,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    function sendSection(button) {
-        const sectionName = button.getAttribute('data-index');
+    function sendSection(sectionName) {
+        const button = document.querySelector(`[data-index="${sectionName}"]`);
         const description = button.getAttribute('data-description');
 
         fetch('/post_section', {
@@ -61,13 +61,10 @@
         })
         .then(response => {
             if (response.ok) {
-                return response.json();
+                window.location.href = '/content_page';  // Redirect to content_page.html
+            } else {
+                throw new Error('Network response was not ok.');
             }
-            throw new Error('Network response was not ok.');
-        })
-        .then(data => {
-            console.log(data);
-            alert("Section posted successfully!");
         })
         .catch(error => console.error('Error:', error));
     }
@@ -80,5 +77,6 @@
         window.location.href = '/ai_suggested_sections';
     }
 </script>
+
 </body>
 </html>

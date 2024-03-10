@@ -19,11 +19,12 @@
         #draft-button {
             position: absolute;
             top: 0;
-            left: -120px; /* Adjust as needed */
-            z-index: 1000; /* Ensure it's above other elements */
+            left: 0;
+            z-index: 1000;
             background-color: black;
             color: white;
             border: none;
+            display: block; /* Initially display the button */
         }
         #chat-messages {
             height: 200px;
@@ -78,8 +79,26 @@
             margin-right: 20px;
         }
         #drafting-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* Make it occupy the whole viewport height */
+            background-color: white;
+            z-index: 999;
             display: none;
-            margin-top: 20px;
+        }
+        #draftingTextarea {
+            width: 100%;
+            height: calc(100vh - 50px); /* Subtract the height of the draft button */
+            resize: none;
+            padding: 20px;
+        }
+        #draftingControls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
         }
     </style>
 </head>
@@ -129,10 +148,10 @@
         </div>
 
         <div id="chat-container" class="mt-5">
-            <button id="draft-button" class="btn btn-primary" onclick="openDrafting()">Click to start drafting</button>
+            <button id="draft-button" class="btn btn-primary" onclick="openDrafting()">project draft</button>
             <div id="drafting-container">
-                <textarea id="draftingTextarea" class="form-control" rows="4" placeholder="Paste your text here..."></textarea>
-                <div class="text-center mt-3">
+                <textarea id="draftingTextarea" class="form-control"></textarea>
+                <div id="draftingControls" class="text-center">
                     <button class="btn btn-outline-danger" onclick="closeDrafting()">Close</button>
                 </div>
             </div>
@@ -204,11 +223,13 @@
 
         // Function to open drafting textarea
         function openDrafting() {
+            document.getElementById("draft-button").style.display = "none"; // Hide the drafting button
             document.getElementById("drafting-container").style.display = "block";
         }
 
         // Function to close drafting textarea
         function closeDrafting() {
+            document.getElementById("draft-button").style.display = "block"; // Show the drafting button
             document.getElementById("drafting-container").style.display = "none";
         }
     </script>

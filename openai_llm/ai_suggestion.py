@@ -10,7 +10,7 @@ from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
 load_dotenv()
 
-api_key =os.getenv("OPENAI_API_KEY")
+api_key =os.getenv("key_2")
 info = load_json_as_dict(file_name="project_general_info.json")
 llm = ChatOpenAI(model = "gpt-4",openai_api_key=api_key)
 
