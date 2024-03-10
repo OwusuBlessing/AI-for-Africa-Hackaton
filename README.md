@@ -4,7 +4,7 @@
 <div align="center">
 
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://static.zawya.com/view/acePublic/alias/contentid/N2RmYzc1MmQtMGU1Zi00/52/1328784596.webp?q=0.75&f=3%3A2&w=3840" alt="Logo">
+    <img src="https://img.freepik.com/premium-photo/ultimate-workspace-companion-chatgpt-robotic-technology-nextlevel-performance-generative-ai_634358-1134.jpg?size=626&ext=jpg" alt="Logo">
   </a>
 
   <h3 align="center">AI-Powered Research Assistant</h3>
