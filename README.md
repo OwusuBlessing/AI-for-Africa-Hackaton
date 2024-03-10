@@ -45,7 +45,7 @@ project_root/
 │   ├── home.html
 │   └── ... (other HTML files)
 │
-├── apppy
+├── app.py
 │
 ├── images
 │
